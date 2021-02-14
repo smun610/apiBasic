@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 @Table(name = "players")
@@ -18,8 +20,11 @@ public class Players {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="player_id")
+    @ApiModelProperty(value = "123",notes="Unique ID", name="Id")
     private int id;
+    @ApiModelProperty(value = "Shohei",notes="Players First name", name="FirstName")
     private String firstname;
+    @ApiModelProperty(value = "Ono",notes="Players surname", name="surname")
     private String surname;
 
 

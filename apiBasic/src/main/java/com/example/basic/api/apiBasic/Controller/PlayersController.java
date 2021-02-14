@@ -14,18 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.basic.api.apiBasic.Entity.Players;
 import com.example.basic.api.apiBasic.Service.PlayersService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@RequestMapping ("/players")
+@Api(value= "Judo Api",description = "Operations for player entity")
 public class PlayersController {
     @Autowired
     private PlayersService playersService;
 
+    @ApiOperation(value="List all the Players", response = Players.class)
     @RequestMapping("/player")
     public List<Players> list() {
         return playersService.getAll();
     }
 
-
-    @RequestMapping(method = RequestMethod.POST, value = "/player")
+    @ApiOperation(value="Create a new Player", response = Players.class)
+    @RequestMapping(method = RequestMethod.POST, value = "/player", produces = "application/json")
     public ResponseEntity<Players> addNewPlayer(@RequestBody Players pl) {
         try {
             System.out.println(pl);
@@ -36,8 +42,8 @@ public class PlayersController {
         }
 
     }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/player/{id}")
+    @ApiOperation(value="Delete A Player", response = Players.class)
+    @RequestMapping(method = RequestMethod.DELETE, value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> deletePlayer(@PathVariable Integer id) {
         Players pl = playersService.getById(id);
 
@@ -50,8 +56,8 @@ public class PlayersController {
 
 
     }
-
-    @RequestMapping("/player/{id}")
+    @ApiOperation(value="Get A Player by ID", response = Players.class)
+    @RequestMapping(value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> getAPlayer(@PathVariable Integer id) {
         try {
             return new ResponseEntity<Object>(playersService.getById(id), HttpStatus.OK);
@@ -60,11 +66,10 @@ public class PlayersController {
         }
 
     }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/player/{id}")
+    @ApiOperation(value="Update A Player by ID", response = Players.class)
+    @RequestMapping(method = RequestMethod.PUT, value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> updatePlayer(@RequestBody Players player, @PathVariable Integer id) {
         Players toUpdate = playersService.getById(id);
-
         if (toUpdate != null) {
             toUpdate = player;
             toUpdate.setId(id);

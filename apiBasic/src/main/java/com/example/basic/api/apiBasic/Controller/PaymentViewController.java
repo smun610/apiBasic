@@ -18,6 +18,7 @@ import com.example.basic.api.apiBasic.Service.PaymentViewService;
 import com.example.basic.api.apiBasic.Service.PlayersService;
 
 @RestController
+@RequestMapping ("/payments")
 public class PaymentViewController {
     @Autowired
     private PaymentViewService paymentViewService;
