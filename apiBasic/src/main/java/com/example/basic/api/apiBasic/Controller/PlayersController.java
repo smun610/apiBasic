@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,16 +29,16 @@ public class PlayersController {
     private PlayersService playersService;
 
     @ApiOperation(value="List all the Players", response = Players.class)
-    @RequestMapping("/player")
+    @GetMapping("/player")
     public List<Players> list() {
         return playersService.getAll();
     }
 
     @ApiOperation(value="Create a new Player", response = Players.class)
-    @RequestMapping(method = RequestMethod.POST, value = "/player", produces = "application/json")
+    @PostMapping( value = "/player", produces = "application/json")
     public ResponseEntity<Players> addNewPlayer(@RequestBody Players pl) {
         try {
-            System.out.println(pl);
+            System.out.println(" check -> " + pl);
             playersService.save(pl);
             return new ResponseEntity<Players>(pl, HttpStatus.OK);
         } catch (Exception e) {
@@ -43,7 +47,7 @@ public class PlayersController {
 
     }
     @ApiOperation(value="Delete A Player", response = Players.class)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/player/{id}", produces = "application/json")
+    @DeleteMapping( value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> deletePlayer(@PathVariable Integer id) {
         Players pl = playersService.getById(id);
 
@@ -57,7 +61,7 @@ public class PlayersController {
 
     }
     @ApiOperation(value="Get A Player by ID", response = Players.class)
-    @RequestMapping(value = "/player/{id}", produces = "application/json")
+    @GetMapping(value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> getAPlayer(@PathVariable Integer id) {
         try {
             return new ResponseEntity<Object>(playersService.getById(id), HttpStatus.OK);
@@ -67,7 +71,7 @@ public class PlayersController {
 
     }
     @ApiOperation(value="Update A Player by ID", response = Players.class)
-    @RequestMapping(method = RequestMethod.PUT, value = "/player/{id}", produces = "application/json")
+    @PutMapping (value = "/player/{id}", produces = "application/json")
     public ResponseEntity<Object> updatePlayer(@RequestBody Players player, @PathVariable Integer id) {
         Players toUpdate = playersService.getById(id);
         if (toUpdate != null) {

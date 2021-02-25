@@ -19,8 +19,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class Players {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="player_id")
     @ApiModelProperty(value = "123",notes="Unique ID", name="Id")
+    @Column(name="player_id")
     private int id;
     @ApiModelProperty(value = "Shohei",notes="Players First name", name="FirstName")
     private String firstname;
